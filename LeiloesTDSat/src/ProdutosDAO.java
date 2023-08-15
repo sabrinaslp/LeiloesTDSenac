@@ -89,4 +89,35 @@ public class ProdutosDAO {
 
         return listagem;
     }
+    
+     public void venderProduto(int id) {
+        conn = new conectaDAO().connectDB();
+
+        try {
+            String query = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+            prep = conn.prepareStatement(query);
+            prep.setInt(1, id);
+
+            prep.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Produto vendido com sucesso.");
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar vender o produto: " + erro.getMessage());
+            
+        } finally {
+
+            try {
+                if (prep != null) {
+                    prep.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+              
+            }
+        }
+    }
+    
 }
